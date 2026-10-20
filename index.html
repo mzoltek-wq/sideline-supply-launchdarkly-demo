@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Sideline Supply — a fictional sports apparel storefront for learning feature management.">
+  <title>Sideline Supply | For the love of the game</title>
+  <link rel="stylesheet" href="styles.css?v=insights-20261019">
+  <script src="commerce.js" defer></script>
+  <script src="insights.js?v=insights-20261019" defer></script>
+  <script src="app.js?v=insights-20261019" defer></script>
+  <script src="vendor/ldclient.min.js" defer></script>
+  <script src="config.js?v=ai-config-20261019" defer></script>
+  <script src="launchdarkly.js?v=insights-20261019" defer></script>
+  <script src="support.js?v=ai-config-20261019" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#collection">Skip to collection</a>
+  <aside class="demo-bar" aria-label="Demo shopper controls">
+    <div class="demo-label"><span class="status-dot"></span><strong>DEMO MODE</strong><span>Choose a shopper. No account needed.</span></div>
+    <div class="profiles" role="group" aria-label="Choose demo shopper">
+      <button type="button" data-shopper="guest" aria-pressed="true">Guest</button>
+      <button type="button" data-shopper="maya" aria-pressed="false">Maya <span>· Internal tester</span></button>
+      <button type="button" data-shopper="jordan" aria-pressed="false">Jordan <span>· Customer</span></button>
+    </div>
+  </aside>
+  <header class="site-header">
+    <a class="wordmark" href="./" aria-label="Sideline Supply home"><span class="brand-icon" aria-hidden="true">S/</span> SIDELINE<span class="brand-sub">SUPPLY</span></a>
+    <div class="header-actions"><a href="dashboard.html" target="_blank" rel="noopener" class="dashboard-link">Demo dashboard</a><span id="shopper-label">Shopping as Guest</span><button type="button" id="open-bag">Bag <span id="bag-count">0</span></button></div>
+  </header>
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy"><p class="eyebrow">EVERY SPORT. YOUR SIDE.</p><h1 id="hero-title">For the love<br>of the <em>game.</em></h1><p>The colors you wear. The team you back.<br>Find your next game-day favorite.</p><a class="primary-link" href="#collection">Shop the collections <span aria-hidden="true">↗</span></a></div>
+      <div class="hero-art" aria-hidden="true"><div class="field-line line-one"></div><div class="field-line line-two"></div><div class="field-line line-three"></div><div class="hero-number">24</div><span class="art-caption">THE EVERYDAY / GAME-DAY COLLECTION</span><span class="art-star">✳</span></div>
+    </section>
+    <section id="collection" class="collection" aria-labelledby="collection-title">
+      <div class="collection-top"><div><p class="eyebrow">REP YOUR SPORT</p><h2 id="collection-title">Basketball essentials</h2></div><p class="collection-note">Made for the stands.<br>Ready for the everyday.</p></div>
+      <div class="collection-controls"><nav class="sport-tabs" aria-label="Sport collections"><button type="button" data-sport="basketball" aria-pressed="true">Basketball</button><button type="button" data-sport="baseball" aria-pressed="false">Baseball</button><button type="button" data-sport="football" aria-pressed="false">Football</button></nav><span class="season-tag" id="season-label">Demo season: In season</span></div>
+      <div class="products" id="products"></div>
+      <section id="game-day-bundle" class="bundle" aria-labelledby="bundle-title" hidden>
+        <div><p class="eyebrow">ONE TEAM. THE WHOLE LOOK.</p><h2 id="bundle-title">Build Your Game-Day Bundle</h2><p id="bundle-description"></p></div>
+        <div class="bundle-purchase"><span class="bundle-savings">2 items · 5% off / 3 items · 10% off</span><span>Start with your favorite. Build your own set.</span><button type="button" id="start-bundle">Start a bundle</button></div>
+      </section>
+    </section>
+    <section class="support-section" aria-labelledby="support-title">
+      <div><p class="eyebrow">HERE FOR YOUR NEXT PLAY</p><h2 id="support-title">Sideline support</h2><p>Order questions or a problem with your gear? Explore a support scenario.</p><span class="preview-badge" id="support-mode">LaunchDarkly configuration · Awaiting request</span></div>
+      <form id="support-form">
+        <label for="support-issue">What can we help with?</label>
+        <select id="support-issue"><option value="delivery">My order hasn't arrived</option><option value="cancel">Cancel an order</option><option value="warranty">Warranty or damaged item</option></select>
+        <label for="support-order">Demo order</label><input id="support-order" maxlength="60" placeholder="Optional demo order number">
+        <label for="support-message">Tell us a little more</label><textarea id="support-message" rows="3" maxlength="1000" placeholder="For example: the seam on my hoodie has come apart."></textarea>
+        <button type="submit">Preview support request</button>
+      </form>
+      <div class="support-config-panel" aria-label="Support configuration for this request"><p class="eyebrow">CONFIGURATION FOR THIS REQUEST</p><dl><div><dt>Issue</dt><dd id="support-config-issue">Submit a request</dd></div><div><dt>Selected model</dt><dd id="support-config-model">Not selected yet</dd></div><div><dt>Configuration variation</dt><dd id="support-config-variation">Not evaluated</dd></div><div><dt>Configuration source</dt><dd id="support-config-source">Awaiting request</dd></div><div><dt>Execution</dt><dd>No model invoked · Simulated response</dd></div></dl><details><summary>View resolved prompt</summary><pre id="support-config-prompt">Submit a request to see the prompt selected by LaunchDarkly.</pre></details><p id="support-config-status" role="status">Submit a request to resolve its model and prompt. The response remains simulated.</p></div>
+      <div class="support-answer"><strong>Simulated support response</strong><p id="support-response" role="status">Choose an issue to preview the support flow.</p><small>Only the issue type and demo shopper context are sent for configuration selection. Your note and order reference stay in this page. No order is changed or claim submitted; responses are scripted.</small></div>
+    </section>
+    <section class="learning-panel" aria-label="Demo information"><div><strong>Your demo, under the hood</strong><p>These profiles simulate shoppers; they do not sign anyone in. Season labels are fixed demo scenarios.</p><p id="flag-status" role="status">Connecting to LaunchDarkly… Bundle hidden until a flag value is available.</p></div><details><summary>View current demo data</summary><p>This is the context supplied to LaunchDarkly. The user and collection are separate context kinds. Targeting rules determine who sees the bundle.</p><pre id="context-preview"></pre></details>
+      <details class="demo-tools"><summary>Demo orders &amp; reset controls</summary><p><a href="dashboard.html" target="_blank" rel="noopener">Open the demo dashboard →</a></p><p id="order-summary"></p><p>Orders are simulated and saved in this browser (latest 100). No payment, taxes, shipping, or fulfillment. Analytics events are synthetic demo data. Review experimental results separately in LaunchDarkly.</p><div class="demo-tool-actions"><button type="button" id="new-visitor">New demo visitor</button><button type="button" id="reset-demo">Reset local demo</button></div><p>New visitor clears the Guest bag and uses a fresh anonymous identity. Reset clears local bags, order history, and dashboard observations; it does not erase LaunchDarkly events or change flags.</p><ol id="order-history"></ol></details>
+    </section>
+  </main>
+  <footer><span class="footer-brand">SIDELINE SUPPLY</span><span>Fictional store. Real team spirit.</span><span>Learning project · No real purchases</span></footer>
+  <dialog id="bundle-dialog" aria-labelledby="bundle-dialog-title" aria-describedby="bundle-dialog-description">
+    <div class="bag-heading"><h2 id="bundle-dialog-title">Build your bundle</h2><button type="button" id="close-bundle" aria-label="Cancel bundle">✕</button></div>
+    <p id="bundle-dialog-description">Pick 2 items for 5% off, or all 3 for 10% off. Your discount applies to the whole set.</p>
+    <div id="bundle-choices" role="group" aria-label="Choose bundle items"></div>
+    <p id="bundle-selection-status" role="status" aria-live="polite"></p>
+    <div class="bundle-draft-summary"><strong>Bundle total</strong><span><s id="bundle-draft-regular"></s> <strong id="bundle-draft-total">$0.00</strong></span></div>
+    <button type="button" id="confirm-bundle" disabled>Add bundle to bag</button>
+  </dialog>
+  <dialog id="bag-dialog" aria-labelledby="bag-title"><div class="bag-heading"><h2 id="bag-title">Your demo bag</h2><button type="button" id="close-bag" aria-label="Close bag">✕</button></div><p class="bag-disclaimer">Practice a purchase. No payment is taken or real order placed.</p><ul id="bag-items"></ul><p id="bag-savings"></p><div class="bag-total"><strong>Order total</strong><strong id="bag-total">$0.00</strong></div><button type="button" id="place-order">Place demo order</button><button type="button" id="clear-bag">Empty bag</button><p id="order-confirmation" class="order-confirmation" role="status" hidden></p></dialog>
+  <dialog id="reset-dialog" aria-labelledby="reset-title"><h2 id="reset-title">Reset the local demo?</h2><p>This clears all three shoppers' bags, saved demo orders, and the support preview, and dashboard observations. It returns to Guest and Basketball.</p><p>LaunchDarkly flags, targeting, and previously sent events stay unchanged.</p><div class="demo-tool-actions"><button type="button" id="cancel-reset">Keep my demo</button><button type="button" id="confirm-reset">Clear local demo</button></div></dialog>
+  <div id="bag-toast" class="bag-toast" hidden><span aria-hidden="true">✓</span><p id="toast-message" role="status" aria-live="polite" aria-atomic="true"></p><button type="button" id="dismiss-toast" aria-label="Dismiss added-to-bag notification">✕</button></div>
+  <p id="announcement" class="sr-only" role="status" aria-live="polite"></p>
+</body>
+</html>

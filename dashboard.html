@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Demo dashboard | Sideline Supply</title>
+  <link rel="stylesheet" href="styles.css?v=traffic-20261019">
+  <script src="insights.js?v=insights-20261019" defer></script>
+  <script src="dashboard.js?v=insights-20261019b" defer></script>
+  <script src="traffic.js?v=traffic-20261019" defer></script>
+</head>
+<body class="dashboard-page">
+  <header class="site-header"><a class="wordmark" href="./"><span class="brand-icon">S/</span> SIDELINE</a><a href="./">← Back to store</a></header>
+  <main class="dashboard-main">
+    <p class="eyebrow">SIDELINE LAB</p><h1>Does the bundle<br>earn its place?</h1>
+    <p class="dashboard-intro">Compare demo orders from shoppers who saw the bundle offer with shoppers who did not.</p>
+    <section class="dashboard-section traffic-panel" aria-labelledby="traffic-title">
+      <p class="eyebrow">SYNTHETIC EXPERIMENT TRAFFIC</p><h2 id="traffic-title">Give the experiment shoppers</h2>
+      <p>Simulate a scenario where bundles increase purchase size and conversion. LaunchDarkly assigns each fresh visitor to a variation. These controls set simulated shopping behavior, not experiment results.</p>
+      <form id="traffic-form">
+        <label for="traffic-visitors">New visitors <input id="traffic-visitors" type="number" min="10" max="1000" step="1" value="600" required></label>
+        <label for="traffic-control">Purchase probability · Bundle off <output id="traffic-control-value">30%</output><input id="traffic-control" type="range" min="0" max="100" value="30"></label>
+        <label for="traffic-treatment">Purchase probability · Bundle on <output id="traffic-treatment-value">45%</output><input id="traffic-treatment" type="range" min="0" max="100" value="45"></label>
+        <label for="traffic-adoption">Bundle selection among buyers with access <output id="traffic-adoption-value">70%</output><input id="traffic-adoption" type="range" min="0" max="100" value="70"></label>
+        <p id="traffic-assumptions" class="traffic-assumptions"></p>
+        <p class="traffic-assumptions">One possible order per visitor. Singles use real catalog prices; bundles use our 5% / 10% pricing. Every visitor views in-season Basketball. Nonbuyers send no purchase event. Traffic is sent to the server SDK's configured LD environment and cannot be erased with Reset local demo.</p>
+        <button type="submit" id="generate-traffic">Generate traffic in LaunchDarkly</button>
+      </form>
+      <p id="traffic-status" role="status">Checking traffic history…</p>
+      <div id="traffic-result" hidden>
+        <p id="traffic-run-label"></p>
+        <div class="table-scroll"><table class="metrics-table"><thead><tr><th scope="col">Latest synthetic run</th><th scope="col">Bundle off</th><th scope="col">Bundle on</th></tr></thead><tbody id="traffic-metrics"></tbody></table></div>
+        <p id="traffic-lift"></p><p id="traffic-delivery"></p>
+      </div>
+      <div class="traffic-actions"><button type="button" id="refresh-traffic">Refresh traffic status</button><a href="https://app.launchdarkly.com/projects/default/experiments/game-day-bundle-impact/results?env=test&selected-env=test" target="_blank" rel="noopener">Open LD experiment →</a></div>
+      <details><summary>Recent synthetic runs</summary><ol id="traffic-history"></ol></details>
+      <p class="metric-definition">This panel reports generated outcomes, not statistical significance. Review experiment health and uncertainty in LD. Results can lag event delivery. Synthetic assumptions can illustrate improvement but cannot establish real customer demand. Runs are kept separately from the manual shopping observations below.</p>
+    </section>
+    <div class="measurement-notice"><strong>Local observations · Review experiment results in LaunchDarkly</strong><p>This view reads demo activity from this browser. It includes demo targeting and experiment activity; it does not identify experiment enrollment. These numbers demonstrate the calculations; they do not establish a winning variation or change a flag.</p></div>
+    <section class="metric-cards" aria-label="Average order value comparison">
+      <article><p>Bundle off · Baseline</p><h2 id="off-aov">—</h2><span id="off-volume">No orders yet</span></article>
+      <article><p>Bundle on</p><h2 id="on-aov">—</h2><span id="on-volume">No orders yet</span></article>
+      <article><p>Observed AOV change · Goal +10%</p><h2 id="aov-lift">—</h2><span id="target-state">Waiting for orders in both groups</span></article>
+    </section>
+    <section class="dashboard-section" aria-labelledby="funnel-title"><h2 id="funnel-title">From shopper to order</h2>
+      <div class="table-scroll"><table class="metrics-table"><thead><tr><th scope="col">Measure</th><th scope="col">Bundle off</th><th scope="col">Bundle on</th></tr></thead><tbody id="metric-rows"></tbody></table></div>
+      <p class="metric-definition"><strong>AOV:</strong> total after-discount revenue ÷ completed orders. <strong>Order conversion:</strong> unique buyers ÷ observed shoppers. <strong>Cart completion:</strong> buyers who started a cart ÷ shoppers who started a cart. These are shopper-level counts, not separate cart sessions. A shopper who started a cart but has no order has not purchased yet; that is not proof of abandonment.</p>
+    </section>
+    <section class="dashboard-section decision-panel"><h2>What does this mean for the flag?</h2><p id="decision-text">Collect observations in both groups to see the arithmetic.</p><p>The +10% goal is a business target. In LaunchDarkly, we will also review statistical uncertainty, sample size, and conversion before making a release decision. This page never toggles the flag automatically.</p></section>
+    <section class="dashboard-section"><h2>Recent demo orders</h2><p id="exclusion-note"></p><div class="table-scroll"><table class="metrics-table"><thead><tr><th scope="col">Order</th><th scope="col">Total</th><th scope="col">Flag at checkout</th><th scope="col">Comparison</th></tr></thead><tbody id="dashboard-orders"></tbody></table></div></section>
+    <details class="dashboard-section"><summary>How to read and reset this view</summary><p>Uses actual SDK evaluations from the store. Loading or missing flag data is not counted as “off.” A shopper who sees both values is marked mixed and excluded, along with their orders. Orders made without a valid matching SDK context are excluded too.</p><p>Guest, Maya and Jordan have fixed keys. Use New demo visitor for a fresh anonymous identity. Repeated orders count as separate orders, but a shopper counts once. Earlier receipts created before observation tracking was added are not backfilled.</p><p>Refresh reloads this local view. Another store tab in the same browser updates it automatically. Chrome and the sidebar have separate storage; use the dashboard in the same browser as the store. Reset local demo in the store clears these observations too. It never resets LaunchDarkly analytics.</p></details>
+    <div class="dashboard-footer"><button type="button" id="refresh-dashboard">Refresh observations</button><span id="dashboard-updated" role="status"></span></div>
+  </main>
+</body>
+</html>

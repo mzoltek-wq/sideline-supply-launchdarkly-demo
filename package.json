@@ -1,0 +1,12 @@
+{
+  "name": "sideline-supply-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Guided LaunchDarkly storefront and support configuration demo",
+  "scripts": { "start": "node server.cjs", "test": "node --test tests/*.test.cjs" },
+  "engines": { "node": ">=22" },
+  "dependencies": {
+    "@launchdarkly/node-server-sdk": "9.15.0",
+    "@launchdarkly/server-sdk-ai": "2.0.15"
+  }
+}

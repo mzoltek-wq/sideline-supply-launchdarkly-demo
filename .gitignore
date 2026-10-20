@@ -1,0 +1,11 @@
+.DS_Store
+node_modules/
+.env
+.env.*
+!.env.example
+
+# Local review notes and runtime artifacts are not part of the submission.
+MORNING-REVIEW.md
+traffic-runs.json
+traffic-runs.json.tmp
+*.log
