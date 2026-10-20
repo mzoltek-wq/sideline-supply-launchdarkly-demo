@@ -1,6 +1,6 @@
 # Sideline Supply
 
-A fictional sports apparel store built with plain HTML, CSS, and JavaScript. This is a LaunchDarkly interview exercise built as a guided learning project. Release, targeting, remediation, a running experiment, and real AI configuration selection are implemented. Experiment data is synthetic and support responses are scripted. This README covers setup, application use, LaunchDarkly configuration, and verification. An additional integration remains a future extension.
+A fictional sports apparel store built with plain HTML, CSS, and JavaScript. This is a LaunchDarkly interview exercise built as a guided learning project. Release, targeting, remediation, a running experiment, real AI configuration selection, and Slack change notifications are implemented. Experiment data is synthetic and support responses are scripted. This README covers setup, application use, LaunchDarkly configuration, and verification.
 
 ## Run locally
 
@@ -120,6 +120,23 @@ In Test, targeting was configured with this order:
 
 With targeting on, Maya sees the feature for every collection. Baseball matches the off-season rule for all shoppers. Other eligible shoppers on in-season collections reach the randomized default rule. A Generic flag trigger with action **turn targeting off** was created for Test and manually invoked successfully. The URL is private and is intentionally absent from this project. A reviewer can create their own trigger and invoke it with a POST request; the existing change listener hides offers without a reload. These settings live in LaunchDarkly, not this repository.
 
+## Slack integration
+
+The official LaunchDarkly Slack app is connected to the demo workspace. The `#feature-flag-test` channel subscribes to all flags in project `default`, environment `test`. A saved manual flag change produced a channel notification, confirmed by the project owner on October 20, 2026.
+
+This integration gives a team visibility into release configuration changes. LaunchDarkly sends the notification directly to Slack; no storefront code or custom Slack webhook endpoint is needed. The store independently receives flag updates through its existing SDK connection. Notifications describe configuration changes, not each shopper's flag evaluation.
+
+To reproduce in your own workspace:
+
+1. Install the official [LaunchDarkly Slack app](https://slack.com/marketplace/AKEEF9DTM-launchdarkly).
+2. Run `/launchdarkly account` in Slack and connect your LaunchDarkly account. Initial setup requires an LD role able to create the integration's notification webhook.
+3. Open the channel that should receive notifications and run `/launchdarkly subscribe`. For a private channel, explicitly add the app to that channel first.
+4. Choose your project and environment. This demo uses `default` and `test`, with all flags and no status or action restriction. To receive only bundle updates, filter on `game-day-bundle` instead.
+5. Preview the matching flags, then create the subscription. Depending on the dialog, the final button may read **Add filters to channel**.
+6. Save a change to a disposable example flag in that environment and verify the channel notification. Restore its original setting afterward. An example flag lets you test notifications without changing the running bundle experiment.
+
+The connection and subscription live in LaunchDarkly and Slack, not in this repository. Cloning the code does not recreate them or grant workspace access. The verified scope is change notifications; controlling flags from Slack is not part of the demonstrated workflow. See [account setup](https://launchdarkly.com/docs/integrations/slack/setting-up) and [notification subscriptions](https://launchdarkly.com/docs/integrations/slack/notifications).
+
 ## Demo sales and experimentation
 
 Checkout creates an immutable local receipt, clears the purchased bag, and prevents duplicate submission of that bag. All prices and receipts are demo-only; no tax, shipping, payment, inventory, or fulfillment is modeled. Browser storage is not a trusted order database.
@@ -234,7 +251,6 @@ Twenty-three automated checks cover order-weighted AOV, unique-buyer conversion,
 
 - Review experiment ingestion and results; distinguish synthetic data from real evidence.
 - Practice changing AI configuration in LD and inspecting the next support request.
-- Choose and configure an integration.
 - Rehearse the reviewer walkthrough using the steps in **Explore**.
 
 Browser client-side IDs are public identifiers; never publish server-side SDK keys, API access tokens, model-provider credentials, or remediation trigger URLs.
